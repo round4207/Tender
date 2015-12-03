@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/buffalo_wing"
+    android:orientation="vertical" >
+
+     <LinearLayout 
+         android:layout_width="match_parent" 
+         android:layout_height="wrap_content" 
+         android:gravity="center" 
+         android:orientation="vertical"
+         android:id="@+id/picContainer">
+
+        <com.parse.ParseImageView 
+            android:id="@+id/imageView" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:src="@drawable/ic_launcher" 
+            android:scaleType="fitXY" />
+
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:gravity="center" 
+        android:orientation="vertical" 
+        android:id="@+id/infoContainer">
+
+        <TextView 
+            android:id="@+id/dishName" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="Large Text" 
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView 
+            android:id="@+id/price" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="Medium Text" 
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+    
+</LinearLayout>

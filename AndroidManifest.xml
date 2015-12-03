@@ -20,7 +20,7 @@
         android:targetSdkVersion="21" />
 
     <application
-        android:name="com.example.tenderapp.MyParseApplication"
+        android:name=".MyParseApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -39,7 +39,7 @@
         <!-- ==================================== -->
 
         <activity
-            android:name="com.example.tenderapp.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,28 +48,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.tenderapp.RegisterActivity"
+            android:name=".RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name="com.example.tenderapp.AddDish"
+            android:name=".AddDish"
             android:label="@string/title_activity_report" >
         </activity>
         <activity
-            android:name="com.example.tenderapp.WelcomeActivity"
+            android:name=".WelcomeActivity"
             android:label="@string/title_activity_welcome" >
         </activity>
         <activity
-            android:name="com.example.tenderapp.ViewLikes"
+            android:name=".ViewLikes"
             android:label="@string/title_activity_summary" >
         </activity>
         <activity
-            android:name="com.example.tenderapp.FullSummaryActivity"
+            android:name=".FullSummaryActivity"
             android:label="@string/title_activity_full_report" >
         </activity>
         <activity
-            android:name="com.example.tenderapp.TrackingActivity"
+            android:name=".TrackingActivity"
             android:label="@string/title_activity_tracking" >
+        </activity>
+        <activity
+            android:name=".SwipeActivity"
+            android:label="@string/title_activity_swipe" >
         </activity>
     </application>
 

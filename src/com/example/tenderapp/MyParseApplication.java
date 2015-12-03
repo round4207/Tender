@@ -17,6 +17,8 @@ public class MyParseApplication extends Application
 		super.onCreate();
 		
 		// add any of your subclasses here
+		ParseObject.registerSubclass(Dish.class);
+		ParseObject.registerSubclass(Establishment.class);
 		
 		// initialize Parse here		
 		Parse.initialize(this, applicationId, clientKey);

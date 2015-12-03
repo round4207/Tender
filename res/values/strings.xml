@@ -10,5 +10,6 @@
     <string name="title_activity_summary">View Likes</string>
     <string name="title_activity_full_report">Details of a Specific Dish</string>
     <string name="title_activity_tracking">Location of the Specific Dish</string>
+    <string name="title_activity_swipe">SwipeActivity</string>
 
 </resources>

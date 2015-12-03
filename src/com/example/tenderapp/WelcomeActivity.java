@@ -67,6 +67,10 @@ public class WelcomeActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	public void viewDishes (View v) {
+		Intent intent = new Intent(getApplicationContext(), SwipeActivity.class);
+		startActivity(intent);
+	}
 	
 	
 	
