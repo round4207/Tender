@@ -82,6 +82,11 @@ public class AddDish extends Activity {
 				//textTargetUri.setText(e.getClass().getName());				
 			}
 		}
+		else
+		{
+			outputFile = null;
+			thumbNailFile = null;
+		}
 	}
 	
 	private void updateImageView()
@@ -131,20 +136,11 @@ public class AddDish extends Activity {
 		double longitudeDbl = Double.parseDouble(longitudeStr);
 		
 		ParseGeoPoint point = new ParseGeoPoint(latitudeDbl, longitudeDbl);
-		
-		String filename = outputFile.getAbsolutePath();
-	    String thumbnailFilename = thumbNailFile.getAbsolutePath();
-	    Date dateTaken = new Date();
-	    
-	    // send Images via Parse    
-        ParseFile thumbnail = new ParseFile(ImageUtils.getFileByte(thumbnailFilename), thumbnailFilename);
-        thumbnail.saveInBackground();
+	   
 
-        ParseFile fullSize = new ParseFile(ImageUtils.getFileByte(filename), filename);
-        fullSize.saveInBackground();
-		
-		// create and save
 		ParseObject addDish = new ParseObject("Dish");
+	    
+	    
 		
 		if (dishNameStr.isEmpty())
         {
@@ -157,13 +153,26 @@ public class AddDish extends Activity {
 		
 		addDish.put("price", priceDbl);
 		
-		//if (addDish.getParseFile("thumbnail") == null)
-		//{
-		//		Toast.makeText(getApplicationContext(), "Please add a photo of the dish.", Toast.LENGTH_LONG).show();
-		//		return;
-		//}
+		if (thumbNailFile!=null)
+	    {
+	    	 String thumbnailFilename = thumbNailFile.getAbsolutePath();
+	    	 ParseFile thumbnail = new ParseFile(ImageUtils.getFileByte(thumbnailFilename), thumbnailFilename);
+	         thumbnail.saveInBackground();
+			 addDish.put("thumbnail", thumbnail);
+	    }
+	    else
+	    {
+	    	Toast.makeText(getApplicationContext(), "Please add a photo of the dish.", Toast.LENGTH_LONG).show();
+			return;
+	    }
+	    if (outputFile != null)
+	    {
+			String filename = outputFile.getAbsolutePath();
+	        ParseFile fullSize = new ParseFile(ImageUtils.getFileByte(filename), filename);
+	        fullSize.saveInBackground();
 			addDish.put("pic", fullSize);
-		    addDish.put("thumbnail", thumbnail);
+	    }
+		
 		
 		ParseObject addEstablishment = new ParseObject("Establishment");
 		if (nameOfEstablishmentStr.isEmpty())
@@ -181,9 +190,6 @@ public class AddDish extends Activity {
 		addEstablishment.put("contactNumber", contactNumberStr);
 		
 		addEstablishment.put("location", point);
-
-		addEstablishment.put("pic", fullSize);
-	    addEstablishment.put("thumbnail", thumbnail);
 		
 		// should put some kind of Progress and disable the buttons while loading
 		disableButtonsShowProgress();

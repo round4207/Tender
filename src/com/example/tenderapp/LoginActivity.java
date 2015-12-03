@@ -41,7 +41,7 @@ public class LoginActivity extends Activity {
 		loginPreferences = this.getSharedPreferences("loginPrefs", MODE_PRIVATE);
 		loginPrefsEditor = loginPreferences.edit();
 		
-		saveLogin = loginPreferences.getBoolean("savelogin", false);
+		saveLogin = loginPreferences.getBoolean("saveLogin", false);
 		if (saveLogin == true)
 		{
 			username.setText(loginPreferences.getString("username", ""));
@@ -81,10 +81,10 @@ public class LoginActivity extends Activity {
 			    {
 			    	if (rememberMe.isChecked())
 			    	{
-			    	loginPrefsEditor.putBoolean("saveLogin", true);
-			    	loginPrefsEditor.putString("username", usernameStr);
-			    	loginPrefsEditor.putString("password", passwordStr);
-			    	loginPrefsEditor.commit();
+				    	loginPrefsEditor.putBoolean("saveLogin", true);
+				    	loginPrefsEditor.putString("username", usernameStr);
+				    	loginPrefsEditor.putString("password", passwordStr);
+				    	loginPrefsEditor.commit();
 			    	}
 			    	else
 			    	{

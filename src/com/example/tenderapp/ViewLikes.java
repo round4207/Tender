@@ -64,9 +64,9 @@ public class ViewLikes extends Activity {
 				
 				//if (object.getParseFile("thumbnail") != null)
 				//{
-				//	ParseImageView imageView = (ParseImageView) findViewById(R.id.parseImage);
-				//	imageView.setParseFile(object.getParseFile("thumbnail"));
-				//	imageView.loadInBackground();
+					ParseImageView imageView = (ParseImageView) v.findViewById(R.id.parseImage);
+					imageView.setParseFile(object.getParseFile("thumbnail"));
+					imageView.loadInBackground();
 				//}
 				
 				TextView dishName = (TextView) v.findViewById(R.id.dishName);

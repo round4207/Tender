@@ -1,6 +1,9 @@
 package com.example.tenderapp;
 
+import java.util.List;
+
 import com.example.tenderapp.R;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseImageView;
@@ -21,6 +24,7 @@ import android.widget.TextView;
 public class FullSummaryActivity extends Activity {
 
 	String foodId;
+	String establishmentName;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,7 @@ public class FullSummaryActivity extends Activity {
 					
 					TextView dishName = (TextView) findViewById(R.id.dishName);
 					dishName.setText(report.getString("name"));
+					establishmentName = report.getString("name");
 					
 					TextView price = (TextView) findViewById(R.id.price);
 					price.setText(String.valueOf(report.getDouble("price")));
@@ -62,16 +67,19 @@ public class FullSummaryActivity extends Activity {
 			} 
 		
 		});
+		
 		ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Establishment"); 
-		query1.getInBackground(foodId, new GetCallback<ParseObject>()
+		
+		query1.whereEqualTo("name", establishmentName);
+		query1.findInBackground(new FindCallback<ParseObject>()
 		{
 			@Override
-			public void done(ParseObject report1, ParseException arg1) {
+			public void done(List<ParseObject> name, ParseException arg1) {
 				// TODO Auto-generated method stub
 				if (arg1==null)
 				{
 					TextView contactNumber = (TextView) findViewById(R.id.contactNumber);
-					contactNumber.setText(report1.getString("contactNumber"));
+					contactNumber.setText(name.get(0).get("contactNumber").toString());
 					
 					//Button button = (Button) findViewById(R.id.viewClick);
 					//button.setTag(report);

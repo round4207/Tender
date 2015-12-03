@@ -29,8 +29,6 @@ import com.parse.SignUpCallback;
 import com.squareup.picasso.Picasso;
 
 public class RegisterActivity extends Activity {
-
-	ParseUser user = new ParseUser();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +80,12 @@ public class RegisterActivity extends Activity {
 				//textTargetUri.setText(e.getClass().getName());				
 			}
 		}
+		else
+		{
+			outputFile = null;
+			thumbNailFile = null;
+			
+		}
 	}
 	
 	private void updateImageView()
@@ -105,31 +109,8 @@ public class RegisterActivity extends Activity {
 		String passwordStr = password.getText().toString();
 		String confirmPasswordStr = confirmPassword.getText().toString();
 
-		String filename = outputFile.getAbsolutePath();
-	    String thumbnailFilename = thumbNailFile.getAbsolutePath();
-		
-	    // send Images via Parse    
-        ParseFile thumbnail = new ParseFile(ImageUtils.getFileByte(thumbnailFilename), thumbnailFilename);
-        thumbnail.saveInBackground();
-
-        ParseFile fullSize = new ParseFile(ImageUtils.getFileByte(filename), filename);
-        fullSize.saveInBackground();
-        
-       // if ((outputFile.length() == 0) && (thumbNailFile.length() == 0))
-        //{
-    		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.buffalo_wing);
-    		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-    		byte[] image = stream.toByteArray();
-    		
-    		file = new ParseFile("buffalo_wing.jpg", image);
-    		user.put("profPic",file);
-      //  }
-       // else
-		//{
-        	//user.put("profPic", thumbnail);
-        //}
-        
+		ParseUser user = new ParseUser();
+	    
 	    // create and save
         if (userNameStr.isEmpty())
         {
@@ -156,14 +137,43 @@ public class RegisterActivity extends Activity {
 		}
 		
 		disableButtonsShowProgress();
-		file.saveInBackground(new SaveCallback() {
+		
+		 if (thumbNailFile!=null)
+		    {
+			 String thumbnailFilename = thumbNailFile.getAbsolutePath();
+			    // send Images via Parse    
+		        ParseFile thumbnail = new ParseFile(ImageUtils.getFileByte(thumbnailFilename), thumbnailFilename);
+		        try
+		        { thumbnail.save();}
+		        catch (Exception e)
+		        {
+		        	e.printStackTrace();
+		        }
+		        user.put("profPic",thumbnail);
+		    }       
+		    else
+		    {
+	    		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.buffalo_wing);
+	    		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+	    		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+	    		byte[] image = stream.toByteArray();
+	    		
+	    		file = new ParseFile("buffalo_wing.jpg", image);
+	    		try
+	    		{file.save();}
+	    		catch(Exception e)
+	    		{
+	    			e.printStackTrace();
+	    		}
+	    		user.put("profPic",file);
+		    }
+		 user.signUpInBackground(new SignUpCallback() {
 			@Override
 			public void done(ParseException e) {
 				// TODO Auto-generated method stub
 				if (e == null)
 				{
-					signup();
-					//Toast.makeText(getApplicationContext(), "Registration successful.  You can now log in", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Registration successful.  You can now log in", Toast.LENGTH_LONG).show();
 			    	//finish();
 				}
 				else
@@ -175,28 +185,6 @@ public class RegisterActivity extends Activity {
 
 			    enableButtonDisableProgress();	
 			}
-		});
-	}
-	
-	private void signup()
-	{
-		user.signUpInBackground(new SignUpCallback() {
-		  public void done(ParseException e) 
-		  {
-		  if (e == null) 
-		    {
-		      // Hooray! Let them use the app now.
-		    	Toast.makeText(getApplicationContext(), "Registration successful.  You can now log in", Toast.LENGTH_LONG).show();
-		    	finish();
-		    } 
-		  else
-		    {
-		      // Sign up didn't succeed. Look at the ParseException
-		      // to figure out what went wrong
-		    	e.printStackTrace();
-		    	Toast.makeText(getApplicationContext(), "Unable to register: "+e.getMessage(), Toast.LENGTH_LONG).show();
-		    }
-		  }
 		});
 	}
 	
