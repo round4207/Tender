@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class TrackingActivity extends Activity {
 
@@ -43,24 +44,26 @@ public class TrackingActivity extends Activity {
 
 		// default to normal view
 		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(MANILA, 17));		
+		//map.moveCamera(CameraUpdateFactory.newLatLngZoom(MANILA, 17));		
 		
-		String foodId = (String) getIntent().getStringExtra("foodId");
-		
+		String establishment = (String) getIntent().getStringExtra("establishment");
+		System.out.println("WHUUUUUUUUUUUAAAAAAAAAAAAWWWWWWWW" + establishment);
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Establishment");
-		query.getInBackground(foodId, new GetCallback<ParseObject>() 
+		query.getInBackground(establishment, new GetCallback<ParseObject>() 
 		{
 			@Override
 			public void done(ParseObject establishment, ParseException arg1) {
 				// TODO Auto-generated method stub
-					EditText establishmentName = (EditText) findViewById(R.id.establishmentName);
+					TextView establishmentName = (TextView) findViewById(R.id.establishmentName);
 					establishmentName.setText(establishment.getString("name"));
 				
-					ParseGeoPoint userLocation = (ParseGeoPoint) establishment.getParseGeoPoint("location");
+					ParseGeoPoint estabLocation = (ParseGeoPoint) establishment.getParseGeoPoint("location");
 					String name = establishment.get("name").toString();
-					Double userLat = userLocation.getLatitude();
-					Double userLong = userLocation.getLongitude();
+					Double userLat = estabLocation.getLatitude();
+					Double userLong = estabLocation.getLongitude();
 					LatLng pos = new LatLng(userLat,userLong);
+					
+					map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17));
 					
 					addMarker(pos, name);
 			}});

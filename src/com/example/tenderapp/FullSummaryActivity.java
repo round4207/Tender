@@ -25,6 +25,7 @@ public class FullSummaryActivity extends Activity {
 
 	String foodId;
 	String establishmentName;
+	String estabId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,43 +53,44 @@ public class FullSummaryActivity extends Activity {
 					
 					TextView dishName = (TextView) findViewById(R.id.dishName);
 					dishName.setText(report.getString("name"));
-					establishmentName = report.getString("name");
+					establishmentName = report.getString("establishment");
+					//System.out.println(establishmentName);
 					
 					TextView price = (TextView) findViewById(R.id.price);
 					price.setText(String.valueOf(report.getDouble("price")));
 					
 					TextView nameOfEstablishment = (TextView) findViewById(R.id.nameOfEstablishment);
 					nameOfEstablishment.setText(report.getString("establishment"));
-				}
-				else
-				{
-					arg1.printStackTrace();
-				}
-			} 
-		
-		});
-		
-		ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Establishment"); 
-		
-		query1.whereEqualTo("name", establishmentName);
-		query1.findInBackground(new FindCallback<ParseObject>()
-		{
-			@Override
-			public void done(List<ParseObject> name, ParseException arg1) {
-				// TODO Auto-generated method stub
-				if (arg1==null)
-				{
-					TextView contactNumber = (TextView) findViewById(R.id.contactNumber);
-					contactNumber.setText(name.get(0).get("contactNumber").toString());
 					
-					//Button button = (Button) findViewById(R.id.viewClick);
-					//button.setTag(report);
+					ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Establishment"); 		
+					query1.whereEqualTo("name", establishmentName);
+					query1.findInBackground(new FindCallback<ParseObject>()
+					{
+						@Override
+						public void done(List<ParseObject> name, ParseException arg1) {
+							// TODO Auto-generated method stub
+							if (arg1==null)
+							{
+								TextView contactNumber = (TextView) findViewById(R.id.contactNumber);
+								contactNumber.setText(name.get(0).get("contactNumber").toString());
+								estabId = name.get(0).getObjectId();
+								
+								//Button button = (Button) findViewById(R.id.viewClick);
+								//button.setTag(report);
+							}
+							else
+							{
+								arg1.printStackTrace();
+							}
+						} 
+					});
 				}
 				else
 				{
 					arg1.printStackTrace();
 				}
 			} 
+		
 		});
 	}
 	
@@ -98,7 +100,7 @@ public class FullSummaryActivity extends Activity {
 		
 		Intent intent = new Intent(getApplicationContext(), TrackingActivity.class);
 		//intent.putExtra("foodId", foodId.getObjectId());
-		intent.putExtra("foodId", foodId);
+		intent.putExtra("establishment", estabId);	
 		startActivity(intent);
 	}
 	

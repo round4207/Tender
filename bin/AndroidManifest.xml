@@ -34,8 +34,9 @@
         <!-- YOU NEED TO CHANGE THIS FOR YOUR MACHINE -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAKFqIAipKRC6E0fSmA0HPle0B8oPG99l8" />
-
+            android:value="AIzaSyAJxMAgLtMqzKkpfYx810QtnVZ1ZMYJpBY" />
+        	
+<!--  JM's key android:value="AIzaSyAKFqIAipKRC6E0fSmA0HPle0B8oPG99l8" -->
         <!-- ==================================== -->
 
         <activity
