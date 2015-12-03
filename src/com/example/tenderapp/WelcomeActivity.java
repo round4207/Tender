@@ -38,7 +38,7 @@ public class WelcomeActivity extends Activity {
 					// then load in background
 					
 					ParseImageView imageView = (ParseImageView) findViewById(R.id.profPic);
-					
+					imageView.setBackgroundResource(0);
 					imageView.setParseFile(ParseUser.getCurrentUser().getParseFile("profPic"));
 					imageView.loadInBackground();
 					

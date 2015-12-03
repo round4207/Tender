@@ -48,7 +48,8 @@ public class FullSummaryActivity extends Activity {
 					// then load in background
 					ParseImageView imageView = (ParseImageView) findViewById(R.id.imageView1);
 					
-					imageView.setParseFile(report.getParseFile("thumbnail"));
+					imageView.setBackgroundResource(0);
+					imageView.setParseFile(report.getParseFile("pic"));
 					imageView.loadInBackground();
 					
 					TextView dishName = (TextView) findViewById(R.id.dishName);

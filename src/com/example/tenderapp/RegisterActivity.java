@@ -174,7 +174,7 @@ public class RegisterActivity extends Activity {
 				if (e == null)
 				{
 					Toast.makeText(getApplicationContext(), "Registration successful.  You can now log in", Toast.LENGTH_LONG).show();
-			    	//finish();
+			    	finish();
 				}
 				else
 				{

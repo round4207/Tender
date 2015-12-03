@@ -103,9 +103,6 @@ public class AddDish extends Activity {
 		EditText dishName = (EditText) findViewById(R.id.dishName);
 		EditText price = (EditText) findViewById(R.id.price);
 		EditText nameOfEstablishment = (EditText) findViewById(R.id.nameOfEstablishment);
-		EditText contactNumber = (EditText) findViewById(R.id.contactNumber);
-		EditText latitude = (EditText) findViewById(R.id.latitude);
-		EditText longitude = (EditText) findViewById(R.id.longitude);
 		
 		String dishNameStr = dishName.getText().toString();
 		String priceStr = price.getText().toString();
@@ -117,31 +114,10 @@ public class AddDish extends Activity {
         }
 		double priceDbl = Double.parseDouble(priceStr);
 		String nameOfEstablishmentStr = nameOfEstablishment.getText().toString();
-		String contactNumberStr = contactNumber.getText().toString();
 		
-		String latitudeStr = latitude.getText().toString();
-		if (latitudeStr.isEmpty())
-        {
-        	Toast.makeText(getApplicationContext(), "Please enter establishment latitude.", Toast.LENGTH_LONG).show();
-        	return;
-        }
-		double latitudeDbl = Double.parseDouble(latitudeStr);
-
-		String longitudeStr = longitude.getText().toString();
-		if (longitudeStr.isEmpty())
-        {
-        	Toast.makeText(getApplicationContext(), "Please enter establishment longitude.", Toast.LENGTH_LONG).show();
-        	return;
-        }
-		double longitudeDbl = Double.parseDouble(longitudeStr);
-		
-		ParseGeoPoint point = new ParseGeoPoint(latitudeDbl, longitudeDbl);
-	   
 
 		ParseObject addDish = new ParseObject("Dish");
 	    
-	    
-		
 		if (dishNameStr.isEmpty())
         {
         	Toast.makeText(getApplicationContext(), "Please enter a dish name.", Toast.LENGTH_LONG).show();
@@ -182,14 +158,6 @@ public class AddDish extends Activity {
         }
 		addEstablishment.put("name", nameOfEstablishmentStr);
 		
-		if (contactNumberStr.isEmpty())
-        {
-        	Toast.makeText(getApplicationContext(), "Please enter the establishment contact number.", Toast.LENGTH_LONG).show();
-        	return;
-        }
-		addEstablishment.put("contactNumber", contactNumberStr);
-		
-		addEstablishment.put("location", point);
 		
 		// should put some kind of Progress and disable the buttons while loading
 		disableButtonsShowProgress();
@@ -200,7 +168,7 @@ public class AddDish extends Activity {
 		    {
 		      // Hooray! Let them use the app now.
 		    	Toast.makeText(getApplicationContext(), "Thanks for adding a dish!", Toast.LENGTH_LONG).show();
-		    	//finish();
+		    	finish();
 		    } 
 		    else 
 		    {

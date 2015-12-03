@@ -70,6 +70,22 @@
 	       android:src="@drawable/menutext" />
 	
 	   <ImageButton
+	       android:id="@+id/viewDishes"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_below="@+id/imageView3"
+	       android:layout_centerHorizontal="true"
+	       android:layout_marginTop="18dp"
+	       android:adjustViewBounds="true"
+	       android:background="@null"
+	       android:maxHeight="200dp"
+	       android:maxWidth="160dp"
+	       android:onClick="viewDishes"
+	       android:layout_gravity="center"
+	       android:scaleType="fitCenter"
+	       android:src="@drawable/viewdishes" />
+	   
+	   <ImageButton
 	       android:id="@+id/viewClick"
 	       android:layout_width="wrap_content"
 	       android:layout_height="wrap_content"
@@ -101,12 +117,6 @@
 	       android:scaleType="fitCenter"
 	       android:src="@drawable/adddishbtn" />
 
-	   <Button
-	       android:id="@+id/button1"
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:text="View dishes" 
-	       android:onClick="viewDishes"/>
 
     </LinearLayout>
 
