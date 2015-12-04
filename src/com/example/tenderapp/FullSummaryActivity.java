@@ -20,17 +20,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FullSummaryActivity extends Activity {
 
 	String foodId;
 	String establishmentName;
 	String estabId;
+	Boolean loaded;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_full_summary);
+		loaded = false;
 		
 		// NOTE: you cannot pass the CatPic directly doesn't seem to work
 		//		 so pass the object ID and reload the ParseObject
@@ -75,6 +78,7 @@ public class FullSummaryActivity extends Activity {
 								TextView contactNumber = (TextView) findViewById(R.id.contactNumber);
 								contactNumber.setText(name.get(0).get("contactNumber").toString());
 								estabId = name.get(0).getObjectId();
+								loaded = true;
 								
 								//Button button = (Button) findViewById(R.id.viewClick);
 								//button.setTag(report);
@@ -98,11 +102,14 @@ public class FullSummaryActivity extends Activity {
 	public void viewClick (View v)
 	{
 		//ParseObject foodId = (ParseObject) v.getTag();
-		
-		Intent intent = new Intent(getApplicationContext(), TrackingActivity.class);
-		//intent.putExtra("foodId", foodId.getObjectId());
-		intent.putExtra("establishment", estabId);	
-		startActivity(intent);
+		if (loaded) {
+			Intent intent = new Intent(getApplicationContext(), TrackingActivity.class);
+			//intent.putExtra("foodId", foodId.getObjectId());
+			intent.putExtra("establishment", estabId);	
+			startActivity(intent);
+		} else {
+			Toast.makeText(getApplicationContext(), "Please wait for/ninformation to load!.", Toast.LENGTH_LONG).show();
+		}		
 	}
 	
 	

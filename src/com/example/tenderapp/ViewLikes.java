@@ -1,10 +1,13 @@
 package com.example.tenderapp;
 
+import java.util.ArrayList;
+
 import com.example.tenderapp.R;
 import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -43,6 +46,9 @@ public class ViewLikes extends Activity {
 				// NOTE: adjust query here
 				if (filter != null) {
 					query.whereStartsWith("name", filter);
+				} else {
+					ArrayList<String> likes = (ArrayList<String>) ParseUser.getCurrentUser().get("dishesLiked");
+					query.whereContainedIn("objectId", likes);
 				}
 				return query;
 			}

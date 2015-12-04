@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+    android:id="@+id/MainLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/buffalo_wing"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_edittext"
     android:orientation="vertical" >
 
-     <LinearLayout 
-         android:layout_width="match_parent" 
-         android:layout_height="wrap_content" 
-         android:gravity="center" 
-         android:orientation="vertical"
-         android:id="@+id/picContainer">
+    <LinearLayout
+        android:id="@+id/picContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="6" >
 
-        <com.parse.ParseImageView 
-            android:id="@+id/imageView" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" 
-            android:src="@drawable/ic_launcher" 
-            android:scaleType="fitXY" />
-
+        <com.parse.ParseImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="375dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher" />
     </LinearLayout>
-    
-    <LinearLayout 
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content" 
-        android:gravity="center" 
-        android:orientation="vertical" 
-        android:id="@+id/infoContainer">
 
-        <TextView 
-            android:id="@+id/dishName" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" 
-            android:text="Large Text" 
+    <LinearLayout
+        android:id="@+id/infoContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="4" >
+
+        <TextView
+            android:id="@+id/dishName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView 
-            android:id="@+id/price" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" 
-            android:text="Medium Text" 
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
-    
+
 </LinearLayout>

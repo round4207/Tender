@@ -2,14 +2,19 @@ package com.example.tenderapp;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.example.tenderapp.R;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -24,19 +29,56 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddDish extends Activity {
+	
+	ArrayList<String> estabNames;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_dish);
+		
+		estabNames = new ArrayList<String>(Arrays.asList("Loading..."));
+		final ArrayAdapter<String> adapter= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, estabNames);
+		Spinner spinner = (Spinner) findViewById(R.id.spinner);
+		spinner.setAdapter(adapter);
+		
+		ParseQuery<Establishment> placeQuery = new ParseQuery<Establishment>(Establishment.class);
+		//TODO:filter the results
+		placeQuery.findInBackground(new FindCallback<Establishment>() {
+			@Override
+			public void done(List<Establishment> placeResults, ParseException arg1) {
+				// TODO Auto-generated method stub
+				if (arg1==null)
+				{
+					//TextView contactNumber = (TextView) findViewById(R.id.contactNumber);
+					//contactNumber.setText(name.get(0).get("contactNumber").toString());
+					//estabId = name.get(0).getObjectId();
+					//loaded = true;
+					adapter.clear();
+					for (int i = 0; i < placeResults.size(); i++) {
+						adapter.add(placeResults.get(i).getName());
+					}
+					adapter.notifyDataSetChanged();
+					
+					//Button button = (Button) findViewById(R.id.viewClick);
+					//button.setTag(report);
+				}
+				else
+				{
+					arg1.printStackTrace();
+				}
+			} 
+		});
 	}
 	
 	private File outputFile;
@@ -102,7 +144,7 @@ public class AddDish extends Activity {
 	{
 		EditText dishName = (EditText) findViewById(R.id.dishName);
 		EditText price = (EditText) findViewById(R.id.price);
-		EditText nameOfEstablishment = (EditText) findViewById(R.id.nameOfEstablishment);
+		Spinner nameOfEstablishment = (Spinner) findViewById(R.id.spinner);
 		
 		String dishNameStr = dishName.getText().toString();
 		String priceStr = price.getText().toString();
@@ -113,28 +155,36 @@ public class AddDish extends Activity {
         	return;
         }
 		double priceDbl = Double.parseDouble(priceStr);
-		String nameOfEstablishmentStr = nameOfEstablishment.getText().toString();
+		//String nameOfEstablishmentStr = nameOfEstablishment.getText().toString();
+		String nameOfEstablishmentStr = nameOfEstablishment.getSelectedItem().toString();
 		
-
-		ParseObject addDish = new ParseObject("Dish");
+		if (nameOfEstablishmentStr.equals("Loading...")) {
+			Toast.makeText(getApplicationContext(), "Please enter a valid establishment name.", Toast.LENGTH_LONG).show();
+        	return;
+		}
+		
+		Dish addDish = new Dish();
+		
+		//ParseObject addDish = new ParseObject("Dish");
+		
 	    
 		if (dishNameStr.isEmpty())
         {
         	Toast.makeText(getApplicationContext(), "Please enter a dish name.", Toast.LENGTH_LONG).show();
         	return;
         }
-		addDish.put("name", dishNameStr);
+		addDish.setDishName(dishNameStr);
 		
-		addDish.put("establishment", nameOfEstablishmentStr);
+		addDish.setEstablishment(nameOfEstablishmentStr);
 		
-		addDish.put("price", priceDbl);
+		addDish.setPrice(priceDbl);
 		
 		if (thumbNailFile!=null)
 	    {
 	    	 String thumbnailFilename = thumbNailFile.getAbsolutePath();
 	    	 ParseFile thumbnail = new ParseFile(ImageUtils.getFileByte(thumbnailFilename), thumbnailFilename);
 	         thumbnail.saveInBackground();
-			 addDish.put("thumbnail", thumbnail);
+			 addDish.setThumbNail(thumbnail);
 	    }
 	    else
 	    {
@@ -146,18 +196,8 @@ public class AddDish extends Activity {
 			String filename = outputFile.getAbsolutePath();
 	        ParseFile fullSize = new ParseFile(ImageUtils.getFileByte(filename), filename);
 	        fullSize.saveInBackground();
-			addDish.put("pic", fullSize);
-	    }
-		
-		
-		ParseObject addEstablishment = new ParseObject("Establishment");
-		if (nameOfEstablishmentStr.isEmpty())
-        {
-        	Toast.makeText(getApplicationContext(), "Please enter the establishment name.", Toast.LENGTH_LONG).show();
-        	return;
-        }
-		addEstablishment.put("name", nameOfEstablishmentStr);
-		
+			addDish.setPic(fullSize);
+	    }		
 		
 		// should put some kind of Progress and disable the buttons while loading
 		disableButtonsShowProgress();
@@ -179,24 +219,6 @@ public class AddDish extends Activity {
 		    }
 		  }
 		});
-		addEstablishment.saveInBackground(new SaveCallback() {
-			  public void done(ParseException e) 
-			  {
-			    if (e == null) 
-			    {
-			      // Hooray! Let them use the app now.
-			    } 
-			    else 
-			    {
-			      // Sign up didn't succeed. Look at the ParseException
-			      // to figure out what went wrong
-			    	e.printStackTrace();
-			    	Toast.makeText(getApplicationContext(), "Unable to add dish: "+e.getMessage(), Toast.LENGTH_LONG).show();
-			    }
-			    
-			    enableButtonDisableProgress();
-			  }
-			});
 	}
 	
 	public void cancelClicked (View v)

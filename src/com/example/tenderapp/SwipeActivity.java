@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -34,6 +38,7 @@ public class SwipeActivity extends Activity {
 	RelativeLayout parentView;
 	float alphaValue = 0;
 	private Context m_context;
+	//private GoogleMap map;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -43,31 +48,42 @@ public class SwipeActivity extends Activity {
 		
 		m_context = SwipeActivity.this;
         
-        //TODO: spinner while food is loading, and error message
-        
         parentView = (RelativeLayout) findViewById(R.id.relativeLayout);
 		windowwidth = getWindowManager().getDefaultDisplay().getWidth();
 		screenCenter = windowwidth / 2;
 		final ProgressBar spinny = (ProgressBar) findViewById(R.id.loadingSpinner);
 		final TextView loading = (TextView) findViewById(R.id.loadingLabel);
-		//Log.e("test", String.valueOf(screenCenter));
-		//int[] myImageList = new int[] { R.drawable.cats, R.drawable.baby1, R.drawable.sachin, R.drawable.cats, R.drawable.puppy };
 
+//		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+//
+//		// enables the my location button on the upper right
+//		map.setMyLocationEnabled(true);
+//		// default to normal view
+//		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//		//map.moveCamera(CameraUpdateFactory.newLatLngZoom(MANILA, 17));		
+//		ParseGeoPoint userLoc = new ParseGeoPoint(map.getMyLocation().getLatitude(),map.getMyLocation().getLongitude());
+		
 		ParseQuery<Establishment> placeQuery = new ParseQuery<Establishment>(Establishment.class);
-		//TODO:filter the results
+		//placeQuery.whereNear("location", userLoc);
 		placeQuery.findInBackground(new FindCallback<Establishment>() {
 			@Override
 			public void done(List<Establishment> placeResults, ParseException arg2) {
 
 				ParseQuery<Dish> foodQuery = new ParseQuery<Dish>(Dish.class);
 				ArrayList<String> likes = (ArrayList<String>) ParseUser.getCurrentUser().get("dishesLiked");
+				ArrayList<String> places = new ArrayList<String>();
+				for (int i = 0; i < placeResults.size(); i++) {
+					places.add(placeResults.get(i).getName());
+				}
 				foodQuery.whereNotContainedIn("objectId", likes);
+				foodQuery.whereContainedIn("establishment", places);
 				foodQuery.findInBackground(new FindCallback<Dish>() { 
 					@Override
 					public void done(List<Dish> foodResults, ParseException arg1) {
 						if (arg1 == null) {
-							spinny.setVisibility(View.GONE);
-							loading.setVisibility(View.GONE);
+							spinny.setVisibility(View.INVISIBLE);
+							//loading.setVisibility(View.GONE);
+							loading.setText("You've finished\n   all the food!");
 							System.out.println("Did it reach?");
 							for (int i = 0; i < foodResults.size(); i++) {		
 								
@@ -82,7 +98,7 @@ public class SwipeActivity extends Activity {
 								//LinearLayout m_bottomLayout = (LinearLayout) m_view.findViewById(R.id.sp_linh);
 								// final RelativeLayout myRelView = new RelativeLayout(this);
 								LinearLayout picContainer = (LinearLayout) m_view.findViewById(R.id.picContainer);
-								LinearLayout mainLayout = (LinearLayout) m_view.findViewById(R.id.LinearLayout1);
+								LinearLayout mainLayout = (LinearLayout) m_view.findViewById(R.id.MainLayout);
 								//m_view.setLayoutParams(new LayoutParams((windowwidth - 80), 450));
 								m_view.setLayoutParams(new LayoutParams(windowwidth - 90, android.app.ActionBar.LayoutParams.MATCH_PARENT));
 								m_view.setX(40);

@@ -127,10 +127,11 @@ public class LoginActivity extends Activity {
 		View button2 = findViewById(R.id.register);
 		View spinner = findViewById(R.id.progressBar1);
 		
+		spinner.setVisibility(View.VISIBLE);
 		button1.setEnabled(false);
 		button2.setEnabled(false);
-		spinner.setVisibility(View.VISIBLE);
-
+		button1.setVisibility(View.GONE);
+		button2.setVisibility(View.GONE);
 	}
 	
 	private void enableButtonDisableSpinner()
@@ -141,7 +142,9 @@ public class LoginActivity extends Activity {
 		
 		button1.setEnabled(true);
 		button2.setEnabled(true);
-		spinner.setVisibility(View.INVISIBLE);		
+		button1.setVisibility(View.VISIBLE);
+		button2.setVisibility(View.VISIBLE);
+		spinner.setVisibility(View.GONE);		
 	}
 	
 	
