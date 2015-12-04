@@ -57,21 +57,13 @@ public class AddDish extends Activity {
 		placeQuery.findInBackground(new FindCallback<Establishment>() {
 			@Override
 			public void done(List<Establishment> placeResults, ParseException arg1) {
-				// TODO Auto-generated method stub
 				if (arg1==null)
 				{
-					//TextView contactNumber = (TextView) findViewById(R.id.contactNumber);
-					//contactNumber.setText(name.get(0).get("contactNumber").toString());
-					//estabId = name.get(0).getObjectId();
-					//loaded = true;
 					adapter.clear();
 					for (int i = 0; i < placeResults.size(); i++) {
 						adapter.add(placeResults.get(i).getName());
 					}
 					adapter.notifyDataSetChanged();
-					
-					//Button button = (Button) findViewById(R.id.viewClick);
-					//button.setTag(report);
 				}
 				else
 				{

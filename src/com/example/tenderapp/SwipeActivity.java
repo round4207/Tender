@@ -93,16 +93,11 @@ public class SwipeActivity extends Activity {
 										.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
 								final View m_view = inflate.inflate(R.layout.card, null);
-								//ImageView m_image = (ImageView) m_view.findViewById(R.id.imageView);
-								//LinearLayout m_topLayout = (LinearLayout) m_view.findViewById(R.id.sp_color);
-								//LinearLayout m_bottomLayout = (LinearLayout) m_view.findViewById(R.id.sp_linh);
-								// final RelativeLayout myRelView = new RelativeLayout(this);
 								LinearLayout picContainer = (LinearLayout) m_view.findViewById(R.id.picContainer);
 								LinearLayout mainLayout = (LinearLayout) m_view.findViewById(R.id.MainLayout);
-								//m_view.setLayoutParams(new LayoutParams((windowwidth - 80), 450));
 								m_view.setLayoutParams(new LayoutParams(windowwidth - 90, android.app.ActionBar.LayoutParams.MATCH_PARENT));
 								m_view.setX(40);
-								System.out.println("initial x" + m_view.getX());
+								//System.out.println("initial x" + m_view.getX());
 								m_view.setY(40);
 								m_view.setTag(i);
 								
@@ -115,37 +110,7 @@ public class SwipeActivity extends Activity {
 								dishName.setText(bruh.getDishName());
 								price.setText(String.valueOf(bruh.getPrice()));				
 			
-								// ADD dynamically like button on image.
-			//					final Button imageLike = new Button(m_context);
-			//					imageLike.setLayoutParams(new LayoutParams(100, 50));
-			//					imageLike.setBackground(getResources().getDrawable(R.drawable.like));
-			//					imageLike.setX(20);
-			//					imageLike.setY(-250);
-			//					imageLike.setAlpha(alphaValue);
-			//					m_topLayout.addView(imageLike);
-					//
-			//					// ADD dynamically dislike button on image.
-			//					final Button imagePass = new Button(m_context);
-			//					imagePass.setLayoutParams(new LayoutParams(100, 50));
-			//					imagePass.setBackground(getResources().getDrawable(R.drawable.dislike));
-			//					imagePass.setX(260);
-			//					imagePass.setY(-300);
-			//					imagePass.setAlpha(alphaValue);
-			//					m_topLayout.addView(imagePass);
-			
-								// Click listener on the bottom layout to open the details of the
-								// image.
-			//					m_bottomLayout.setOnClickListener(new OnClickListener() {
-			//
-			//						@Override
-			//						public void onClick(View v) {
-			//							startActivity(new Intent(m_context, DetailsActivity.class));
-			//
-			//						}
-			//					});
-			
 								// Touch listener on the image layout to swipe image right or left.
-								//used to be m_topLayout, ~ picLayout
 								mainLayout.setOnTouchListener(new OnTouchListener() {
 			
 									@Override
@@ -168,16 +133,8 @@ public class SwipeActivity extends Activity {
 											//y_cord = (int) event.getRawY();
 											m_view.setX(x_cord - x);
 											//m_view.setY(y_cord - y);									
-											// m_view.setY(y_cord-y);﻿
-											// y_cord = (int) event.getRawY();
-											// m_view.setX(x_cord - screenCenter + 40);
-											// m_view.setY(y_cord - 150);
 											if (x_cord >= screenCenter) {
-												//rotate
-												//m_view.setRotation((float) ((x_cord - screenCenter) * (Math.PI / 128)));
-												//like icon overlay
 												if (x_cord > (screenCenter + (screenCenter / 2))) {
-													//imageLike.setAlpha(1);
 													if (x_cord > (windowwidth - (screenCenter / 4))) {
 														Likes = 2;
 													} else {
@@ -185,15 +142,9 @@ public class SwipeActivity extends Activity {
 													}
 												} else {
 													Likes = 0;
-													//imageLike.setAlpha(0);
 												}
-												//imagePass.setAlpha(0);
 											} else {
-												// rotate
-												//m_view.setRotation((float) ((x_cord - screenCenter) * (Math.PI / 128)));
-												//dislike icon overlay
 												if (x_cord < (screenCenter / 2)) {
-													//imagePass.setAlpha(1);
 													if (x_cord < screenCenter / 4) {
 														Likes = 1;
 													} else {
@@ -201,9 +152,7 @@ public class SwipeActivity extends Activity {
 													}
 												} else {
 													Likes = 0;
-													//imagePass.setAlpha(0);
 												}
-												//imageLike.setAlpha(0);
 											}
 			
 											break;
@@ -211,27 +160,23 @@ public class SwipeActivity extends Activity {
 											x_cord = (int) event.getRawX();
 											//y_cord = (int) event.getRawY();
 			
-											Log.e("X Point", "" + x_cord + " , Y " + y_cord);
-			//								imagePass.setAlpha(0);
-			//								imageLike.setAlpha(0);
+											//Log.e("X Point", "" + x_cord + " , Y " + y_cord);
 			
 											if (Likes == 0) {
-												 Log.e("Event Status", "Nothing");
+												 //Log.e("Event Status", "Nothing");
 												//set layout params was added
-												//m_view.setLayoutParams(new LayoutParams((windowwidth - 80), 450));
 												m_view.setX(40);
 												//m_view.setY(40);
-												System.out.println("repsisiotned x: " + m_view.getX());
-												//m_view.setRotation(0);
+												//System.out.println("repsisiotned x: " + m_view.getX());
 											} else if (Likes == 1) {
-												 Log.e("Event Status", "Rejected");	
+												 //Log.e("Event Status", "Rejected");	
 												 bruh.increment("dislikes");
 												 bruh.saveInBackground();
 												 parentView.removeView(m_view);
 											} else if (Likes == 2) {
-												 Log.e("Event Status", "Liked");
+												 //Log.e("Event Status", "Liked");
 												 ParseUser.getCurrentUser().add("dishesLiked", bruh.getObjectId());
-												 System.out.println(bruh.getObjectId());
+												 //System.out.println(bruh.getObjectId());
 												 ParseUser.getCurrentUser().saveInBackground();
 												 bruh.increment("likes");
 												 bruh.saveInBackground();

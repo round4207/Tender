@@ -35,7 +35,7 @@ public class FullSummaryActivity extends Activity {
 		setContentView(R.layout.activity_full_summary);
 		loaded = false;
 		
-		// NOTE: you cannot pass the CatPic directly doesn't seem to work
+		// NOTE: you cannot pass the object directly doesn't seem to work
 		//		 so pass the object ID and reload the ParseObject
 		foodId = (String) getIntent().getStringExtra("foodId");
 		
@@ -44,7 +44,6 @@ public class FullSummaryActivity extends Activity {
 		{
 			@Override
 			public void done(ParseObject report, ParseException arg1) {
-				// TODO Auto-generated method stub
 				if (arg1==null)
 				{
 					// upon loading, place the ParseFile into the image view
